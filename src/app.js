@@ -28,9 +28,10 @@ app.get('/healthcheck', (req, res) => {
 });
 
 // Error handling middleware
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   logger.error(err.stack);
   res.status(500).json({ error: 'Something went wrong!' });
+  next();
 });
 
 module.exports = app;
