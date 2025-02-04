@@ -5,10 +5,10 @@ const logger = require('../utils/logger');
 exports.getAllStudents = async (req, res) => {
   try {
     const students = await Student.find();
-    res.status(200).json(students);
+    return res.status(200).json(students);
   } catch (error) {
     logger.error('Error getting students:', error);
-    res.status(500).json({ message: 'Error getting students' });
+    return res.status(500).json({ message: 'Error getting students' });
   }
 };
 
@@ -19,10 +19,10 @@ exports.getStudentById = async (req, res) => {
     if (!student) {
       return res.status(404).json({ message: 'Student not found' });
     }
-    res.status(200).json(student);
+    return res.status(200).json(student);
   } catch (error) {
     logger.error('Error getting student:', error);
-    res.status(500).json({ message: 'Error getting student' });
+    return res.status(500).json({ message: 'Error getting student' });
   }
 };
 
@@ -31,10 +31,10 @@ exports.createStudent = async (req, res) => {
   try {
     const student = new Student(req.body);
     const savedStudent = await student.save();
-    res.status(201).json(savedStudent);
+    return res.status(201).json(savedStudent);
   } catch (error) {
     logger.error('Error creating student:', error);
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
@@ -44,15 +44,15 @@ exports.updateStudent = async (req, res) => {
     const student = await Student.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
     if (!student) {
       return res.status(404).json({ message: 'Student not found' });
     }
-    res.status(200).json(student);
+    return res.status(200).json(student);
   } catch (error) {
     logger.error('Error updating student:', error);
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
@@ -63,9 +63,9 @@ exports.deleteStudent = async (req, res) => {
     if (!student) {
       return res.status(404).json({ message: 'Student not found' });
     }
-    res.status(200).json({ message: 'Student deleted successfully' });
+    return res.status(200).json({ message: 'Student deleted successfully' });
   } catch (error) {
     logger.error('Error deleting student:', error);
-    res.status(500).json({ message: 'Error deleting student' });
+    return res.status(500).json({ message: 'Error deleting student' });
   }
 };

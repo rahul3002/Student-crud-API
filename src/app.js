@@ -23,15 +23,14 @@ app.get('/healthcheck', (req, res) => {
   res.status(200).json({
     status: 'healthy',
     timestamp: new Date(),
-    uptime: process.uptime()
+    uptime: process.uptime(),
   });
 });
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-  logger.error(err.stack);
-  res.status(500).json({ error: 'Something went wrong!' });
-  next();
+app.use((err, req, res, _next) => {
+  logger.error('Error:', err);
+  res.status(500).json({ message: 'Internal server error' });
 });
 
 module.exports = app;

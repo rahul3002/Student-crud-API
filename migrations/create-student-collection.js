@@ -18,38 +18,38 @@ const createStudentCollection = async () => {
           properties: {
             firstName: {
               bsonType: 'string',
-              description: 'First name is required'
+              description: 'First name is required',
             },
             lastName: {
               bsonType: 'string',
-              description: 'Last name is required'
+              description: 'Last name is required',
             },
             email: {
               bsonType: 'string',
               pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
-              description: 'Email must be a valid email address'
+              description: 'Email must be a valid email address',
             },
             studentId: {
               bsonType: 'string',
-              description: 'Student ID is required'
+              description: 'Student ID is required',
             },
             dateOfBirth: {
               bsonType: 'date',
-              description: 'Date of birth is required'
+              description: 'Date of birth is required',
             },
             grade: {
               bsonType: 'number',
               minimum: 0,
               maximum: 100,
-              description: 'Grade must be between 0 and 100'
-            }
-          }
-        }
-      }
+              description: 'Grade must be between 0 and 100',
+            },
+          },
+        },
+      },
     });
 
     logger.info('Students collection created successfully');
-    process.exit(0);
+    await mongoose.connection.close();
   } catch (error) {
     logger.error('Error creating students collection:', error);
     process.exit(1);
