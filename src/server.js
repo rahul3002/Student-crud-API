@@ -8,7 +8,19 @@ const PORT = process.env.PORT || 3000;
 // Connect to MongoDB
 connectDB();
 
-// Start server
-app.listen(PORT, () => {
-  logger.info(`Server is running on port ${PORT}`);
-});
+// Start server with error handling
+const server = app
+  .listen(PORT)
+  .on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      logger.error(`Port ${PORT} is already in use. Trying ${PORT + 1}...`);
+      // Try the next port
+      server.listen(PORT + 1);
+    } else {
+      logger.error('Server error:', err);
+    }
+  })
+  .on('listening', () => {
+    const address = server.address();
+    logger.info(`Server is running on port ${address.port}`);
+  });
